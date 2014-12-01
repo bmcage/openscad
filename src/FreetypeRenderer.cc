@@ -144,6 +144,7 @@ std::vector<const Geometry *> FreetypeRenderer::render(const FreetypeRenderer::P
 		return std::vector<const Geometry *>();
 	}
 	
+#ifndef NOHARFBUZZ
 	hb_font_t *hb_ft_font = hb_ft_font_create(face, NULL);
 
 	hb_buffer_t *hb_buf = hb_buffer_create();
@@ -242,4 +243,8 @@ std::vector<const Geometry *> FreetypeRenderer::render(const FreetypeRenderer::P
         hb_font_destroy(hb_ft_font);
 	
 	return callback.get_result();
+#else
+    PRINTB("Can't set font %s, no harfbuzz", params.font);
+    return std::vector<const Geometry *>();
+#endif
 }

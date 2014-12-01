@@ -8,6 +8,10 @@ SET(CMAKE_BUILD_TYPE Debug)
 project(openscad_nogui)
 
 
+# User settable Target options (remove build directory on changes!)
+option (NOHARFBUZZ      "Compile without HarfBuzz"      ON)
+
+
 cmake_minimum_required(VERSION 2.8)
 if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
   # Explicitly use new include policy to avoid globally shadowing included modules
@@ -46,8 +50,6 @@ IF (APPLE)
    ENDIF()
 ENDIF(APPLE)
 
-
-project(openscad_nogui)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}" ${CMAKE_SOURCE_DIR}/../tests)
 
@@ -196,6 +198,11 @@ endfunction()
 #
 # Update this if FindBoost.cmake gets out of sync with the current boost release
 # set(Boost_ADDITIONAL_VERSIONS "1.47.0" "1.46.0")
+
+if(DEFINED ENV{VSC_HOME})
+    # compiling on a VSC cluster
+    set(BOOST_ROOT $ENV{EBROOTBOOST})
+endif()
 
 if (WIN32)
   set(Boost_USE_STATIC_LIBS TRUE)
@@ -497,9 +504,13 @@ if (FREETYPE_VERSION)
   message(STATUS "freetype2 ${FREETYPE_VERSION} found: ${FREETYPE_INCLUDE_DIRS}")
 endif()
 
-pkg_check_modules(HARFBUZZ REQUIRED harfbuzz>=0.9.19)
-if (HARFBUZZ_VERSION)
-  message(STATUS "harfbuzz ${HARFBUZZ_VERSION} found: ${HARFBUZZ_INCLUDE_DIRS}")
+if (${NOHARFBUZZ} MATCHES "OFF")
+    pkg_check_modules(HARFBUZZ REQUIRED harfbuzz>=0.9.19)
+    if (HARFBUZZ_VERSION)
+    message(STATUS "harfbuzz ${HARFBUZZ_VERSION} found: ${HARFBUZZ_INCLUDE_DIRS}")
+    endif()
+else()
+    message(STATUS "harfbuzz not used")
 endif()
 
 restore_pkg_config_env()
@@ -617,6 +628,7 @@ endif()
 
 set(CORE_SOURCES
   tests-common.cc 
+  headlessconfig.h.in
   ../src/parsersettings.cc
   ../src/mathc99.cc
   ../src/linalg.cc
@@ -729,6 +741,11 @@ if(NULLGL)
     ../src/renderer.cc
     ../src/render.cc)
 endif()
+
+
+#make cmake options available in code (delete build dir on changes!)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/headlessconfig.h.in
+               ${CMAKE_CURRENT_BINARY_DIR}/headlessconfig.h)
 
 add_library(tests-core STATIC ${CORE_SOURCES})
 target_link_libraries(tests-core ${OPENGL_LIBRARIES} ${GLIB2_LIBRARIES} ${FONTCONFIG_LDFLAGS} ${FREETYPE_LDFLAGS} ${HARFBUZZ_LDFLAGS} ${Boost_LIBRARIES} ${COCOA_LIBRARY})

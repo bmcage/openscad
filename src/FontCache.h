@@ -39,8 +39,10 @@
 #include <string>
 #include <fontconfig/fontconfig.h>
 
+#ifndef NOHARFBUZZ
 #include <hb.h>
 #include <hb-ft.h>
+#endif
 
 class FontInfo {
 public:
