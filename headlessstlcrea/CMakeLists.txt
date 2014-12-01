@@ -719,6 +719,7 @@ set(OFFSCREEN_SOURCES
 if(NULLGL)
   message(STATUS "NULLGL is set. Overriding previous OpenGL(TM) settings")
   set(OFFSCREEN_SOURCES
+    ../src/GLView.h
     ../src/NULLGL.cc # contains several 'nullified' versions of above .cc files
     ../src/OffscreenView.cc
     ../src/OffscreenContextNULL.cc
