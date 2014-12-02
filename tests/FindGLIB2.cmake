@@ -1,6 +1,6 @@
 message(STATUS "running openscad/tests/FindGLIB2.cmake ...")
 
-include(PkgConfigTools.cmake)
+include(../tests/PkgConfigTools.cmake)
 save_pkg_config_env()
 
 # GLIB2 requires pkg-config to build. 
