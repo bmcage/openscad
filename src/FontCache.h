@@ -31,6 +31,7 @@
 
 #include <time.h>
 
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_TRUETYPE_IDS_H
@@ -38,11 +39,6 @@
 #include <vector>
 #include <string>
 #include <fontconfig/fontconfig.h>
-
-#ifndef NOHARFBUZZ
-#include <hb.h>
-#include <hb-ft.h>
-#endif
 
 class FontInfo {
 public:

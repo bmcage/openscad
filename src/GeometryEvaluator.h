@@ -29,7 +29,9 @@ public:
 	virtual Response visit(State &state, const CgaladvNode &node);
 	virtual Response visit(State &state, const ProjectionNode &node);
 	virtual Response visit(State &state, const RenderNode &node);
+#ifndef NOTEXT
 	virtual Response visit(State &state, const TextNode &node);
+#endif
 	virtual Response visit(State &state, const OffsetNode &node);
 
 	const Tree &getTree() const { return this->tree; }

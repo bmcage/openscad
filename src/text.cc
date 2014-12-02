@@ -23,6 +23,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+#ifndef NOTEXT
 
 #include "calc.h"
 #include "module.h"
@@ -106,3 +107,4 @@ void register_builtin_text()
 {
 	Builtins::init("text", new TextModule());
 }
+#endif // #ifndef NOTEXT

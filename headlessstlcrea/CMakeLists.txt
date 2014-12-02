@@ -9,7 +9,14 @@ project(openscad_nogui)
 
 
 # User settable Target options (remove build directory on changes!)
-option (NOHARFBUZZ      "Compile without HarfBuzz"      ON)
+option (NOTEXTOPTION      "Compile without text()"      ON)
+
+
+if (${NOTEXTOPTION} MATCHES "ON")
+    SET(NOTEXT 1)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNOTEXT")
+    message(STATUS "text() Disabled")
+endif()
 
 
 cmake_minimum_required(VERSION 2.8)
@@ -504,7 +511,7 @@ if (FREETYPE_VERSION)
   message(STATUS "freetype2 ${FREETYPE_VERSION} found: ${FREETYPE_INCLUDE_DIRS}")
 endif()
 
-if (${NOHARFBUZZ} MATCHES "OFF")
+if (${NOTEXTOPTION} MATCHES "OFF")
     pkg_check_modules(HARFBUZZ REQUIRED harfbuzz>=0.9.19)
     if (HARFBUZZ_VERSION)
     message(STATUS "harfbuzz ${HARFBUZZ_VERSION} found: ${HARFBUZZ_INCLUDE_DIRS}")
@@ -627,8 +634,7 @@ elseif(WIN32)
 endif()
 
 set(CORE_SOURCES
-  tests-common.cc 
-  headlessconfig.h.in
+  tests-common.cc
   ../src/parsersettings.cc
   ../src/mathc99.cc
   ../src/linalg.cc
@@ -668,6 +674,7 @@ set(CORE_SOURCES
   ../src/linearextrude.cc 
   ../src/rotateextrude.cc 
   ../src/text.cc 
+  ../src/textnode.h
   ../src/printutils.cc 
   ../src/fileutils.cc 
   ../src/progress.cc 
@@ -742,10 +749,6 @@ if(NULLGL)
     ../src/render.cc)
 endif()
 
-
-#make cmake options available in code (delete build dir on changes!)
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/headlessconfig.h.in
-               ${CMAKE_CURRENT_BINARY_DIR}/headlessconfig.h)
 
 add_library(tests-core STATIC ${CORE_SOURCES})
 target_link_libraries(tests-core ${OPENGL_LIBRARIES} ${GLIB2_LIBRARIES} ${FONTCONFIG_LDFLAGS} ${FREETYPE_LDFLAGS} ${HARFBUZZ_LDFLAGS} ${Boost_LIBRARIES} ${COCOA_LIBRARY})

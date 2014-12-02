@@ -36,9 +36,11 @@ public:
   virtual Response visit(class State &state, const class PrimitiveNode &node) {
 		return visit(state, (const class LeafNode &)node);
 	}
+#ifndef NOTEXT
   virtual Response visit(class State &state, const class TextNode &node) {
 		return visit(state, (const class AbstractPolyNode &)node);
 	}
+#endif
   virtual Response visit(class State &state, const class ProjectionNode &node) {
 		return visit(state, (const class AbstractPolyNode &)node);
 	}

@@ -29,6 +29,8 @@
 #include <vector>
 #include <ostream>
 
+#ifndef NOTEXT
+
 #include <hb.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -110,12 +112,12 @@ private:
     class GlyphData {
     public:
         GlyphData(FT_Glyph glyph, unsigned int idx, hb_glyph_info_t *glyph_info, hb_glyph_position_t *glyph_pos) : glyph(glyph), idx(idx), glyph_pos(glyph_pos), glyph_info(glyph_info) {}
-        unsigned int get_idx() const { return idx; };
-        FT_Glyph get_glyph() const { return glyph; };
-        double get_x_offset() const { return glyph_pos->x_offset / 64.0 / 16.0; };
-        double get_y_offset() const { return glyph_pos->y_offset / 64.0 / 16.0; };
-        double get_x_advance() const { return glyph_pos->x_advance / 64.0 / 16.0; };
-        double get_y_advance() const { return glyph_pos->y_advance / 64.0 / 16.0; };
+        unsigned int get_idx() const { return idx; }
+        FT_Glyph get_glyph() const { return glyph; }
+        double get_x_offset() const { return glyph_pos->x_offset / 64.0 / 16.0; }
+        double get_y_offset() const { return glyph_pos->y_offset / 64.0 / 16.0; }
+        double get_x_advance() const { return glyph_pos->x_advance / 64.0 / 16.0; }
+        double get_y_advance() const { return glyph_pos->y_advance / 64.0 / 16.0; }
     private:
         FT_Glyph glyph;
         unsigned int idx;
@@ -145,3 +147,4 @@ private:
     static int outline_conic_to_func(const FT_Vector *c1, const FT_Vector *to, void *user);
     static int outline_cubic_to_func(const FT_Vector *c1, const FT_Vector *c2, const FT_Vector *to, void *user);
 };
+#endif // #ifndef NOTEXT

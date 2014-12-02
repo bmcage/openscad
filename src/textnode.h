@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NOTEXT
+
 #include "node.h"
 #include "visitor.h"
 #include "value.h"
@@ -27,3 +29,5 @@ private:
 	FreetypeRenderer::Params params;
 	friend class TextModule;
 };
+
+#endif // #ifndef NOTEXT

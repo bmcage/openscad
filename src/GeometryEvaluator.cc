@@ -458,6 +458,7 @@ Response GeometryEvaluator::visit(State &state, const LeafNode &node)
 	return PruneTraversal;
 }
 
+#ifndef NOTEXT
 Response GeometryEvaluator::visit(State &state, const TextNode &node)
 {
 	if (state.isPrefix()) {
@@ -477,7 +478,7 @@ Response GeometryEvaluator::visit(State &state, const TextNode &node)
 	}
 	return PruneTraversal;
 }
-
+#endif
 
 /*!
 	input: List of 2D or 3D objects (not mixed)

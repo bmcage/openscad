@@ -75,7 +75,9 @@ void Builtins::initialize()
 	register_builtin_offset();
 	register_builtin_dxf_linear_extrude();
 	register_builtin_dxf_rotate_extrude();
+#ifndef NOTEXT
 	register_builtin_text();
+#endif
 
 	this->deprecations["dxf_linear_extrude"] = "linear_extrude()";
 	this->deprecations["dxf_rotate_extrude"] = "rotate_extrude()";

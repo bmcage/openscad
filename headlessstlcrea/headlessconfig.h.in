@@ -1,6 +1,0 @@
-#ifndef HEADLESSCONFIG_H
-#define HEADLESSCONFIG_H
-
-#cmakedefine NOHARFBUZZ
-
-#endif // HEADLESSCONFIG_H
